@@ -1,0 +1,27 @@
+#include <tunables/global>
+
+profile linxiv_web flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+  #include <abstractions/bash>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+
+  # Broad file + network access: the Python/uvicorn server spawns the Rust
+  # linxiv and linxiv-mcp CLIs and loads pdfium, so an enumerated exec/sub-profile
+  # model is not maintainable here.
+  file,
+  network,
+
+  # Capabilities exercised by s6-overlay and run.sh running as root on
+  # root-owned volume trees.
+  capability chown,
+  capability dac_override,
+  capability fowner,
+  capability setgid,
+  capability setuid,
+
+  # Deny kernel/host escape surfaces that `file,` would otherwise grant.
+  deny /proc/kcore rwklx,
+  deny /proc/sysrq-trigger rwklx,
+  deny /sys/firmware/** rwklx,
+}
