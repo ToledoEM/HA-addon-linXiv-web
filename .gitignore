@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+# Claude Code / Status Bank files
+CLAUDE.md
+CLAUDE-*.md
+.claude/
