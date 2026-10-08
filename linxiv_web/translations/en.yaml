@@ -1,0 +1,17 @@
+configuration:
+  pdf_path:
+    name: PDF directory
+    description: >-
+      Where downloaded and uploaded PDFs are stored. Must be a sub-directory of
+      /share, /media or /config. Defaults to /share/linxiv, which is reachable
+      over Samba but is not included in the add-on's backups.
+  password:
+    name: Password
+    description: >-
+      Login password for the web UI. Required — linXiv-web refuses to start
+      on the network without one.
+  max_upload_mb:
+    name: Maximum upload size (MB)
+    description: Largest single PDF or backup upload/import allowed. Default 200.
+network:
+  8000/tcp: Web UI and MCP endpoint (open http://<ha-host>:8086 in a browser)

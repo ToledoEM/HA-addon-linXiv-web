@@ -1,0 +1,29 @@
+name: linXiv
+version: "0.1.0-1"
+slug: linxiv_web
+image: ghcr.io/toledoem/linxiv_web-{arch}
+description: Self-hosted paper library for arXiv, bioRxiv and PubMed with PDF reader, notes and citation graph
+url: https://github.com/ToledoEM/HA-addon-linXiv-web
+arch:
+  - amd64
+  - aarch64
+init: false
+ports:
+  8000/tcp: 8086
+ports_description:
+  8000/tcp: Web UI and MCP endpoint (http://<ha-host>:8086)
+map:
+  - type: addon_config
+    read_only: false
+  - type: share
+    read_only: false
+  - type: media
+    read_only: false
+options:
+  pdf_path: /share/linxiv
+  max_upload_mb: 200
+schema:
+  pdf_path: str
+  password: password
+  max_upload_mb: int(1,)
+webui: http://[HOST]:[PORT:8000]
