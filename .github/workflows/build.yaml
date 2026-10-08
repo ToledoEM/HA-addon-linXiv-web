@@ -1,0 +1,58 @@
+# yamllint disable rule:line-length
+---
+name: Build add-on images
+
+on:
+  push:
+    tags:
+      - "linxiv_web-*"
+      - "linxiv_web@*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: linxiv_web / ${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: write
+    env:
+      BUILDX_NO_DEFAULT_ATTESTATIONS: "1"
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - amd64
+          - aarch64
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Read add-on metadata
+        id: meta
+        run: |
+          VERSION=$(yq -r '.version' linxiv_web/config.yaml)
+          IMAGE=$(yq -r '.image' linxiv_web/config.yaml | sed 's/{arch}/${{ matrix.arch }}/g')
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
+
+      # BUILD_FROM is unused by the Dockerfile — it starts FROM the pinned
+      # linXiv-web image — but the builder action requires the arg.
+      - name: Build and push linxiv_web
+        uses: home-assistant/builder/actions/build-image@2026.03.2
+        with:
+          arch: ${{ matrix.arch }}
+          context: linxiv_web
+          image: ${{ steps.meta.outputs.image }}
+          image-tags: ${{ steps.meta.outputs.version }}
+          version: ${{ steps.meta.outputs.version }}
+          build-args: BUILD_FROM=ghcr.io/toledoem/linxiv-web:0.1.0
+          cache-gha: "false"
+          cosign: "false"
+          push: "true"
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
