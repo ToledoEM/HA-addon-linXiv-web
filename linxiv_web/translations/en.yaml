@@ -8,10 +8,35 @@ configuration:
   password:
     name: Password
     description: >-
-      Login password for the web UI. Required, because linXiv-web will not
-      start on the network without one.
+      Login password for the web UI. Optional. Leave empty to create the admin
+      password in the browser on first visit and change it later in the app.
+      A password set here cannot be changed from the app.
   max_upload_mb:
     name: Maximum upload size (MB)
     description: Largest single PDF or backup you can upload or import. Default 200.
+  trusted_proxies:
+    name: Trusted proxies
+    description: >-
+      Comma-separated IPs or CIDRs of reverse proxies whose X-Forwarded-For
+      header is trusted, for example 172.30.32.0/23. Leave empty without a proxy.
+  cookie_secure:
+    name: Secure cookies
+    description: Send the login cookie over HTTPS only. Enable when served through an HTTPS reverse proxy.
+  hsts:
+    name: HSTS
+    description: >-
+      Send Strict-Transport-Security, so browsers use only HTTPS for this host
+      for one year. Enable only when served over HTTPS.
+  remember_days:
+    name: Remember me (days)
+    description: Session lifetime when "Remember me" is ticked at login. Default 90.
+  ai_allowed_hosts:
+    name: AI allowed hosts
+    description: >-
+      Comma-separated hosts the OpenAI-compatible AI base URL may use. Leave
+      empty to allow any host except cloud metadata addresses.
+  log_level:
+    name: Log level
+    description: Server log level. Default info.
 network:
   8000/tcp: Web UI and MCP endpoint. Open http://<ha-host>:8086 in a browser.

@@ -7,7 +7,6 @@ set -Eeuo pipefail
 
 OPTIONS_JSON="/data/options.json"
 DATA_DIR="/config/data"
-SECRET_FILE="/config/.secret_key"
 DEFAULT_PDF_PATH="/share/linxiv"
 
 log() {
@@ -90,9 +89,15 @@ PASSWORD="$(read_opt password)"
 MAX_UPLOAD_MB="$(read_opt max_upload_mb)"
 MAX_UPLOAD_MB="${MAX_UPLOAD_MB:-200}"
 
+TRUSTED_PROXIES="$(read_opt trusted_proxies)"
+COOKIE_SECURE="$(read_opt cookie_secure)"
+HSTS="$(read_opt hsts)"
+REMEMBER_DAYS="$(read_opt remember_days)"
+AI_ALLOWED_HOSTS="$(read_opt ai_allowed_hosts)"
+LOG_LEVEL="$(read_opt log_level)"
+
 [[ "$MAX_UPLOAD_MB" =~ ^[0-9]+$ ]] || die "max_upload_mb must be a positive integer"
-# linXiv-web refuses to bind off loopback without a password.
-[[ -n "$PASSWORD" ]] || die "password is empty; set it in the add-on configuration"
+[[ -z "$REMEMBER_DAYS" || "$REMEMBER_DAYS" =~ ^[0-9]+$ ]] || die "remember_days must be a positive integer"
 
 PDF_DIR="$(require_mapped_path "pdf_path" "$PDF_PATH_RAW")"
 
@@ -100,10 +105,16 @@ mkdir -p "$DATA_DIR" || die "cannot create ${DATA_DIR}"
 mkdir -p "$PDF_DIR" || die "pdf_path '${PDF_DIR}' does not exist and could not be created"
 link_pdf_dir
 
-# Session signing key: persisted so a restart does not change the signing key.
-if [[ ! -s "$SECRET_FILE" ]]; then
-    (umask 077 && head -c 32 /dev/urandom | od -An -tx1 | tr -d ' \n' > "$SECRET_FILE")
-fi
+# Export an optional setting only when set, so linXiv-web keeps its own default.
+export_opt() {
+    local name="$1"
+    local value="$2"
+    if [[ -n "$value" ]]; then
+        export "${name}=${value}"
+    else
+        unset "$name"
+    fi
+}
 
 # Override unconditionally: the upstream image bakes /data and /pdfs into ENV.
 export LINXIV_DATA_DIR="$DATA_DIR"
@@ -112,15 +123,34 @@ export LINXIV_WEB_PDF_DIR="$PDF_DIR"
 export LINXIV_WEB_HOST="0.0.0.0"
 export LINXIV_WEB_PORT="8000"
 export LINXIV_WEB_MAX_UPLOAD_MB="$MAX_UPLOAD_MB"
-LINXIV_WEB_SECRET_KEY="$(cat "$SECRET_FILE")"
-export LINXIV_WEB_SECRET_KEY
+# linXiv-web generates the session signing key and keeps it in the data dir.
+unset LINXIV_WEB_SECRET_KEY
 unset LINXIV_WEB_PASSWORD_HASH
-export LINXIV_WEB_PASSWORD="$PASSWORD"
+# No password: linXiv-web starts in first-run setup and stores the admin
+# password the first visitor creates in <data dir>/linxiv-web-auth.json.
+export_opt LINXIV_WEB_PASSWORD "$PASSWORD"
+export_opt LINXIV_WEB_TRUSTED_PROXIES "$TRUSTED_PROXIES"
+export_opt LINXIV_WEB_COOKIE_SECURE "$COOKIE_SECURE"
+export_opt LINXIV_WEB_HSTS "$HSTS"
+export_opt LINXIV_WEB_REMEMBER_DAYS "$REMEMBER_DAYS"
+export_opt LINXIV_WEB_AI_ALLOWED_HOSTS "$AI_ALLOWED_HOSTS"
+export_opt LINXIV_WEB_LOG_LEVEL "$LOG_LEVEL"
 
 log "Configuration summary:"
 log "  data_dir=${DATA_DIR}"
 log "  pdf_path=${PDF_DIR}"
 log "  max_upload_mb=${MAX_UPLOAD_MB}"
+if [[ -n "$PASSWORD" ]]; then
+    log "  password=set in add-on configuration"
+else
+    log "  password=not set (first-run setup or password stored by the app)"
+fi
+log "  trusted_proxies=${TRUSTED_PROXIES:-<none>}"
+log "  cookie_secure=${COOKIE_SECURE:-false}"
+log "  hsts=${HSTS:-false}"
+log "  remember_days=${REMEMBER_DAYS:-90}"
+log "  ai_allowed_hosts=${AI_ALLOWED_HOSTS:-<any>}"
+log "  log_level=${LOG_LEVEL:-info}"
 
 cd /app/server
 exec python -m app

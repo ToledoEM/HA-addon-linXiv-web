@@ -24,6 +24,12 @@ options:
   max_upload_mb: 200
 schema:
   pdf_path: str
-  password: password
+  password: password?
   max_upload_mb: int(1,)
+  trusted_proxies: str?
+  cookie_secure: bool?
+  hsts: bool?
+  remember_days: int(1,)?
+  ai_allowed_hosts: str?
+  log_level: list(debug|info|warning|error)?
 webui: http://[HOST]:[PORT:8000]
