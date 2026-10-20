@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2-1
+
+- Update linXiv-web to 0.1.2 (`ghcr.io/toledoem/linxiv-web:0.1.2`). No add-on option changes.
+- linXiv-web 0.1.1: Add paper and Upload merged into one `/add` page; Library state kept in the URL; DOIs read from PDFs are cleaned before metadata lookup; PDF link downloads are protected against DNS rebinding.
+- linXiv-web 0.1.2: Home feed takes several RSS/Atom feeds; Knowledge Graph exports to GraphML and CSV; batch edit on project and reading list pages; redesigned paper page with the PDF beside a details rail.
+
 ## 0.1.0-1
 
 - Initial release.

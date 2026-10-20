@@ -1,6 +1,6 @@
 {
   "source": "ghcr",
   "upstream_repo": "toledoem/linxiv-web",
-  "upstream_version": "0.1.0",
-  "last_update": "2026-10-08"
+  "upstream_version": "0.1.2",
+  "last_update": "2026-10-20"
 }

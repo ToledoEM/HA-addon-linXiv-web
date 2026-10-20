@@ -6,14 +6,14 @@
 # linXiv-web release to wrap. Tracked separately from BUILD_VERSION so the
 # add-on can carry its own revision suffix (e.g. 0.1.0-1). Bump alongside
 # config.yaml and build.yaml.
-ARG UPSTREAM_VERSION=0.1.0
+ARG UPSTREAM_VERSION=0.1.2
 
 FROM ghcr.io/toledoem/linxiv-web:${UPSTREAM_VERSION}
 
 # Defaulted so a bare `docker build` works; pr-check.yaml passes only
 # BUILD_FROM/BUILD_ARCH, and the HA builder injects both of these itself.
 ARG BUILD_ARCH=amd64
-ARG BUILD_VERSION=0.1.0-1
+ARG BUILD_VERSION=0.1.2-1
 ARG S6_OVERLAY_VERSION=3.2.0.2
 
 ENV LXW_ADDON_VERSION=${BUILD_VERSION} \
