@@ -78,7 +78,7 @@ link_pdf_dir() {
     fi
 }
 
-log "linXiv add-on ${LXW_ADDON_VERSION:-unknown} (${LXW_ADDON_ARCH:-$(uname -m)})"
+log "linXiv-web add-on ${LXW_ADDON_VERSION:-unknown} (${LXW_ADDON_ARCH:-$(uname -m)})"
 
 [[ -r "$OPTIONS_JSON" ]] || die "cannot read ${OPTIONS_JSON} (add-on must run as root)"
 jq -e . "$OPTIONS_JSON" > /dev/null 2>&1 || die "${OPTIONS_JSON} is not valid JSON"

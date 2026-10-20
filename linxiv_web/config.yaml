@@ -1,4 +1,4 @@
-name: linXiv
+name: linXiv-web
 version: "0.1.2-1"
 slug: linxiv_web
 image: ghcr.io/toledoem/linxiv_web-{arch}
