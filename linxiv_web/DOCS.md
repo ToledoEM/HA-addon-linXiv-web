@@ -1,9 +1,9 @@
-# linXiv documentation
+# linXiv-web documentation
 
 ## Installation
 
 1. In Home Assistant, go to Settings > Add-ons > Add-on Store, open the `⋮` menu, choose Repositories and paste `https://github.com/ToledoEM/HA-addon-linXiv-web`.
-2. Install linXiv from the store.
+2. Install linXiv-web from the store.
 3. Optional: set a password on the Configuration tab.
 4. Start the add-on and open `http://<your-ha-host>:8086`. Without a password in the configuration, the first visitor creates the admin password, so open the page straight after the first start.
 

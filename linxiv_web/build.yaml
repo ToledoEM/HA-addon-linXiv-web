@@ -5,5 +5,5 @@ build_from:
   amd64: ghcr.io/toledoem/linxiv-web:0.1.2
   aarch64: ghcr.io/toledoem/linxiv-web:0.1.2
 labels:
-  org.opencontainers.image.title: linXiv
+  org.opencontainers.image.title: linXiv-web
   org.opencontainers.image.source: https://github.com/ToledoEM/HA-addon-linXiv-web

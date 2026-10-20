@@ -1,13 +1,13 @@
-# linXiv for Home Assistant
+# linXiv-web for Home Assistant
 
-linXiv is a self-hosted paper library. You can search and import papers from arXiv, bioRxiv and PubMed, read and annotate the PDFs, keep notes and projects, and browse the citation graph. This add-on runs [linXiv-web](https://github.com/ToledoEM/linXiv-web) (Apache-2.0) on your Home Assistant instance.
+linXiv-web is a self-hosted paper library. You can search and import papers from arXiv, bioRxiv and PubMed, read and annotate the PDFs, keep notes and projects, and browse the citation graph. This add-on runs [linXiv-web](https://github.com/ToledoEM/linXiv-web) (Apache-2.0) on your Home Assistant instance.
 
 ## Installation
 
 1. In Home Assistant, go to Settings > Add-ons > Add-on Store.
 2. Open the `···` menu and choose Repositories.
 3. Add `https://github.com/ToledoEM/HA-addon-linXiv-web`.
-4. Find linXiv in the store and install it.
+4. Find linXiv-web in the store and install it.
 5. Optional: on the Configuration tab, set a password.
 6. Start the add-on and open `http://<your-HA-IP>:8086`. Without a configured password, the first visitor creates the admin password.
 

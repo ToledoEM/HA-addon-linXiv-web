@@ -1,4 +1,4 @@
-# linXiv Home Assistant add-on
+# linXiv-web Home Assistant add-on
 
 [![Build add-on images](https://github.com/ToledoEM/HA-addon-linXiv-web/actions/workflows/build.yaml/badge.svg)](https://github.com/ToledoEM/HA-addon-linXiv-web/actions/workflows/build.yaml)
 [![PR Check](https://github.com/ToledoEM/HA-addon-linXiv-web/actions/workflows/pr-check.yaml/badge.svg)](https://github.com/ToledoEM/HA-addon-linXiv-web/actions/workflows/pr-check.yaml)
@@ -20,7 +20,7 @@ To add it by hand:
 
 | Add-on | Description |
 |--------|-------------|
-| [linXiv](linxiv_web/) | Paper library for arXiv, bioRxiv and PubMed, with a PDF reader, notes and a citation graph |
+| [linXiv-web](linxiv_web/) | Paper library for arXiv, bioRxiv and PubMed, with a PDF reader, notes and a citation graph |
 
 ## Releasing
 
