@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3-1
+
+- Update linXiv-web to 0.1.3 (`ghcr.io/toledoem/linxiv-web:0.1.3`). No add-on option changes.
+- linXiv-web 0.1.3: optional multi-user mode with per-account libraries and a read-only shared library; Server Admin maintenance operations (find duplicate papers, complete metadata, check PDF files, database backups, clean unused authors, empty trash) run on demand or nightly; settings download and import; built against linXiv v0.7.1.
+- In multi-user mode, PDFs of the shared and per-account libraries are stored under `/config/data/libraries`. The nightly maintenance hour follows the Home Assistant time zone.
+
 ## 0.1.2-1
 
 - Update linXiv-web to 0.1.2 (`ghcr.io/toledoem/linxiv-web:0.1.2`). No add-on option changes.
